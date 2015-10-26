@@ -1,6 +1,6 @@
 package net.zsy.indexsubmitter.submitter;
 
-public interface IndexClient {
+public interface Client {
 
 	void init();
 

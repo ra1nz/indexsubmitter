@@ -1,7 +1,8 @@
 package net.zsy.indexsubmitter.submitter;
 
-public interface IndexSubmitter {
-	void submit(String message);
+public interface Submitter {
+
+	void submit(String id, String type, Long timestamp, String json);
 
 	static final String TIMESTAMP = "timestamp";
 	static final String DATA = "data";
