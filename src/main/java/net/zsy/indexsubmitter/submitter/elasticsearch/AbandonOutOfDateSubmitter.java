@@ -13,11 +13,23 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.elasticsearch.action.update.UpdateResponse;
 
 import net.zsy.indexsubmitter.submitter.ConcurrentSubmitter;
-
+/**
+ * 过滤过期数据的提交器
+ * 某个数据可能在短时间内多次改变，因此会触发多次索引创建
+ * 由于采用异步并发模型，可能会出现“早”的数据“晚”到达
+ * 这时如果提交的话旧的数据会去更新新的
+ * 防止出现这种情况，使用一个对象级别的缓存记录上次提交的时间
+ * 过期的数据直接放弃提交
+ * 异步、并发
+ *
+ */
 public class AbandonOutOfDateSubmitter extends AbstractIndexSubmitter implements ConcurrentSubmitter {
 
+	//并发提交线程数量
+	//TODO 可配置的参数
 	private final int threadNum;
 
+	//待提交的消息队列
 	private BlockingQueue<Data> queue;
 
 	private ExecutorService exec;
@@ -92,8 +104,8 @@ public class AbandonOutOfDateSubmitter extends AbstractIndexSubmitter implements
 					String type = data.getType();
 					Long timestamp = data.getTimestamp();
 					String json = data.getJson();
-					System.out.println(json);
 					try {
+						//判断是否是过期数据，应该还有优化完善的余地
 						lock.lock();
 						Map<String, Long> times = timestamps.get(type);
 						if (times == null) {
@@ -108,7 +120,7 @@ public class AbandonOutOfDateSubmitter extends AbstractIndexSubmitter implements
 					} finally {
 						lock.unlock();
 					}
-
+					//提交到Elasticsearch
 					UpdateResponse response = client.prepareUpdate(indexname, type, id).setDoc(json.getBytes())
 							.setUpsert(json.getBytes()).get();
 					System.out.println(response.isCreated() ? "create "

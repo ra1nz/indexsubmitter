@@ -11,6 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.zsy.indexsubmitter.submitter.elasticsearch.AbandonOutOfDateSubmitter;
 import net.zsy.indexsubmitter.submitter.elasticsearch.GenericIndexSubmitter;
 
+/**
+ * 提交器工具类
+ *
+ */
 public abstract class Submitters {
 
 	private Submitters() {

@@ -2,6 +2,10 @@ package net.zsy.indexsubmitter.dispatcher;
 
 import net.zsy.indexsubmitter.handler.Handler;
 
+/**
+ * 分发器接口
+ *
+ */
 public interface Dispatcher {
 
 	void init();

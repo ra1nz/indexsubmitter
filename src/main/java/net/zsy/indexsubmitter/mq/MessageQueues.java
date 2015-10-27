@@ -6,7 +6,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
+/**
+ * 消息队列工具类
+ *
+ */
 public abstract class MessageQueues {
 
 	private MessageQueues() {

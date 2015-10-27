@@ -10,7 +10,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.zsy.indexsubmitter.submitter.Submitter;
-
+/**
+ * 通用消息处理器
+ * 解析如{"id":"","type":"","timestamp":"","data":"jsondata"}一般格式的消息
+ * 交给submitter提交
+ * 异步处理
+ *
+ */
 public class GenericHandler extends AbstractHandler {
 
 	private BlockingQueue<String> messages = new LinkedBlockingQueue<String>();

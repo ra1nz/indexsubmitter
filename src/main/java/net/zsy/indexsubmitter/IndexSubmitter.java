@@ -8,6 +8,10 @@ import net.zsy.indexsubmitter.mq.MessageQueues;
 import net.zsy.indexsubmitter.submitter.ConcurrentSubmitter;
 import net.zsy.indexsubmitter.submitter.Submitters;
 
+/**
+ * 程序入口 该程序只负责从creator处理完后发送到消息队列里的消息提交给索引服务
+ *
+ */
 public class IndexSubmitter {
 	public static void main(String[] args) {
 		final Accepter accepter = MessageQueues.getAccepter();

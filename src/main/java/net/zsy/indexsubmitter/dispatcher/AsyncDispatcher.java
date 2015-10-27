@@ -15,7 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.zsy.indexsubmitter.handler.Handler;
 import net.zsy.indexsubmitter.submitter.Submitter;
-
+/**
+ * 异步分发器
+ * 由一个线程负责将消息分发给不同的提交处理器
+ */
 public class AsyncDispatcher implements Dispatcher {
 
 	private BlockingQueue<String> messages;

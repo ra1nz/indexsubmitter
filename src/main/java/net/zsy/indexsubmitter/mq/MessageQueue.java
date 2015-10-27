@@ -1,7 +1,10 @@
 package net.zsy.indexsubmitter.mq;
 
 import java.util.Map;
-
+/**
+ * 消息队列接口定义
+ *
+ */
 public interface MessageQueue {
 
 	void setConfiguration(Map<String, String> configurations);

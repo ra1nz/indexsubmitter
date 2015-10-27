@@ -1,5 +1,9 @@
 package net.zsy.indexsubmitter.submitter;
 
+/**
+ * 提交器接口定义
+ *
+ */
 public interface Submitter {
 
 	void submit(String id, String type, Long timestamp, String json);

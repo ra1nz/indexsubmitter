@@ -12,6 +12,10 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import net.zsy.indexsubmitter.submitter.Client;
 import net.zsy.indexsubmitter.submitter.Submitter;
 
+/**
+ * Elasticsearch 索引提交器抽象实现，所有提交器都要继承这个类
+ *
+ */
 public abstract class AbstractIndexSubmitter implements Submitter, Client {
 
 	public static final String CLUSTERNAME = "es.clustername";

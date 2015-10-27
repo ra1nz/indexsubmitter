@@ -21,7 +21,11 @@ import com.rabbitmq.client.ShutdownSignalException;
 
 import net.zsy.indexsubmitter.mq.Accepter;
 import net.zsy.indexsubmitter.mq.MessageQueue;
-
+/**
+ * RabbitMQ消息队列实现
+ * 因为creator现在只支持将创建完成的索引文档提交到单队列
+ * 所以这里只实现单个队列监听
+ */
 public class RabbitMQAccepter implements Accepter, Runnable {
 
 	private Map<String, String> configurations;
@@ -113,6 +117,7 @@ public class RabbitMQAccepter implements Accepter, Runnable {
 			while (!Thread.currentThread().isInterrupted()) {
 				Delivery delivery = consumer.nextDelivery();
 				String message = new String(delivery.getBody());
+				//队列中未处理的数据达到1000时暂停
 				while (messages.size() >= 1000) {
 					TimeUnit.SECONDS.sleep(3);
 				}
