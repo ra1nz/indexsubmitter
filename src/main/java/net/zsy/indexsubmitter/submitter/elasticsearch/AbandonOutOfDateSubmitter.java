@@ -3,7 +3,6 @@ package net.zsy.indexsubmitter.submitter.elasticsearch;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,7 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 
 import net.zsy.indexsubmitter.submitter.ConcurrentSubmitter;
@@ -110,18 +108,12 @@ public class AbandonOutOfDateSubmitter extends AbstractIndexSubmitter implements
 					} finally {
 						lock.unlock();
 					}
-					UpdateRequest updateRequest = new UpdateRequest();
-					updateRequest.index(indexname);
-					updateRequest.type(type);
-					updateRequest.id(id);
-					updateRequest.doc(json.getBytes());
-					updateRequest.upsert(json.getBytes());
-					UpdateResponse response = client.update(updateRequest).get();
+
+					UpdateResponse response = client.prepareUpdate(indexname, type, id).setDoc(json.getBytes())
+							.setUpsert(json.getBytes()).get();
 					System.out.println(response.isCreated() ? "create "
 							: "update " + response.getIndex() + "/" + response.getType() + "/" + response.getId());
 				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();

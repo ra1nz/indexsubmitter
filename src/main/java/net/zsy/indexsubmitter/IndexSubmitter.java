@@ -8,7 +8,7 @@ import net.zsy.indexsubmitter.mq.MessageQueues;
 import net.zsy.indexsubmitter.submitter.ConcurrentSubmitter;
 import net.zsy.indexsubmitter.submitter.Submitters;
 
-public class App {
+public class IndexSubmitter {
 	public static void main(String[] args) {
 		final Accepter accepter = MessageQueues.getAccepter();
 		final Dispatcher dispatcher = new AsyncDispatcher();
